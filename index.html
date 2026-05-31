@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ReactaQuest: An interactive, gamified chemical equation balancer app for Singapore O-Level / IP Secondary Chemistry students. Practice formulas, coefficients, and state symbols.">
+  <title>ReactaQuest - Singapore Secondary Chemistry Balancer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Celebration Confetti Particle Overlay -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Navigation and Status HUD -->
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">Rq</div>
+      <div>
+        <h1>ReactaQuest</h1>
+        <div class="logo-sub">Singapore Chemistry Edition</div>
+      </div>
+    </div>
+    
+    <div class="hud-container">
+      <div class="hud-item hud-streak" title="Current Correct Streak">
+        <span>🔥</span> <span id="streak-count">0</span>
+      </div>
+      <div class="hud-item hud-xp" title="Your Experience Points (XP)">
+        <span>✨</span> <span id="xp-points">0</span> XP
+      </div>
+      <div class="hud-item hud-level" title="Your Current Rank">
+        <span>👑</span> Level <span id="level-value">1</span>
+      </div>
+      <button id="sound-toggle" class="hud-item" style="cursor: pointer; border: 1px solid var(--glass-border); padding: 0.5rem;" title="Mute sound effects">
+        🔊
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Interaction Area -->
+  <main>
+    
+    <!-- Interactive Game Zone -->
+    <div class="game-zone">
+      
+      <!-- Word Question Card -->
+      <div class="card question-card">
+        <div>
+          <span id="topic-badge" class="topic-badge">Acids, Bases and Salts</span>
+          <span id="difficulty-badge" class="difficulty-badge easy">Easy</span>
+        </div>
+        <div id="word-question" class="question-text">
+          Aqueous hydrochloric acid reacts with aqueous sodium hydroxide to produce aqueous sodium chloride and liquid water.
+        </div>
+      </div>
+
+      <!-- Chemical Equation Balancing Playground -->
+      <div class="card equation-card">
+        <h2 style="font-size: 1.1rem; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.5px;">Balance the Chemical Equation</h2>
+        
+        <!-- Strictly single-line chemical equation container -->
+        <div id="equation-container" class="equation-container">
+          <!-- Dynamically populated by app.js -->
+        </div>
+
+        <div class="actions-container">
+          <button id="hint-btn" class="btn btn-hint" title="Show helpful hint">
+            <span>💡</span> Ask Hint
+          </button>
+          
+          <button id="check-btn" class="btn btn-primary" title="Check your answer">
+            <span>🧪</span> Check Equation
+          </button>
+
+          <button id="next-btn" class="btn btn-primary" style="display: none; background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan)); box-shadow: 0 4px 15px rgba(57, 255, 20, 0.3);" title="Go to next question">
+            <span>➡️</span> Next Equation
+          </button>
+        </div>
+      </div>
+
+      <!-- Coach Comments and Chemistry Explanations Card -->
+      <div id="feedback-card" class="card feedback-card">
+        <div class="feedback-title">🧪 Excellent! You got it right!</div>
+        <div id="coach-comment" class="sg-coach-comment">
+          "Swee! Perfectly balanced, just like my cup of Teh C! ☕"
+        </div>
+        <div id="explanation-text" class="explanation-section">
+          This is an acid-base neutralisation reaction...
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sidebar Dashboard & Local Badges Inventory -->
+    <aside>
+      
+      <!-- Badges Inventory Card -->
+      <div class="card sidebar-card">
+        <div class="sidebar-title">
+          <span>🏆</span> Unlocked Badges
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+          Hover on unlocked badges to view achievements!
+        </p>
+        
+        <div class="badges-grid">
+          <!-- Teh C Novice -->
+          <div id="badge-first-step" class="badge-item" title="Teh C Novice: (Locked) Solve your first equation correctly!">
+            <span class="badge-icon">☕</span>
+            <span class="badge-name">Teh C Novice</span>
+          </div>
+
+          <!-- Chope Champion -->
+          <div id="badge-streak-3" class="badge-item" title="Chope Champion: (Locked) Get a streak of 3 equations correct!">
+            <span class="badge-icon">🔖</span>
+            <span class="badge-name">Chope Champion</span>
+          </div>
+
+          <!-- Kiasu Chemist -->
+          <div id="badge-kiasu-chemist" class="badge-item" title="Kiasu Chemist: (Locked) Get a streak of 5 equations correct!">
+            <span class="badge-icon">🔥</span>
+            <span class="badge-name">Kiasu Chemist</span>
+          </div>
+
+          <!-- Milo Dinosaur -->
+          <div id="badge-milo-dino" class="badge-item" title="Milo Dinosaur: (Locked) Accumulate 100 XP!">
+            <span class="badge-icon">🦖</span>
+            <span class="badge-name">Milo Dino</span>
+          </div>
+
+          <!-- Double Confirm -->
+          <div id="badge-double-confirm" class="badge-item" title="Double Confirm: (Locked) Solve 10 equations in total!">
+            <span class="badge-icon">✔️</span>
+            <span class="badge-name">Double Confirm</span>
+          </div>
+
+          <!-- SG Chem Legend -->
+          <div id="badge-sg-chem-legend" class="badge-item" title="SG Chem Legend: (Locked) Solve 20 equations and master balancing!">
+            <span class="badge-icon">👑</span>
+            <span class="badge-name">SG Legend</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Tracking Card -->
+      <div class="card sidebar-card">
+        <div class="sidebar-title" style="margin-bottom: 0.75rem;">
+          <span>📊</span> Practice Stats
+        </div>
+        <div class="stats-list">
+          <div class="stat-row">
+            <span>Highest Streak:</span>
+            <span id="highest-streak" class="stat-value">0</span>
+          </div>
+          <div class="stat-row">
+            <span>Total Balanced:</span>
+            <span id="total-solved" class="stat-value">0</span>
+          </div>
+          <div class="stat-row">
+            <span>Equations Database:</span>
+            <span class="stat-value">50 syllabus-aligned</span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- Footer Info -->
+  <footer style="text-align: center; padding: 1.5rem; border-top: 1px solid var(--glass-border); font-size: 0.8rem; color: var(--text-secondary); background: rgba(10,12,16,0.95); margin-top: auto;">
+    Developed for Secondary 4 Express/IP Chemistry Students. Designed under O-Level 6092 Chemistry Syllabus specifications.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="equations.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

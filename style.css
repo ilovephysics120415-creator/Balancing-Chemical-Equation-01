@@ -1,0 +1,759 @@
+/* ReactaQuest: SG Chem Balancer - Custom Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  /* Color Palette */
+  --bg-primary: #0a0c10;
+  --bg-secondary: #0f131a;
+  --glass-bg: rgba(18, 24, 38, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  
+  --neon-cyan: #00f3ff;
+  --neon-cyan-glow: rgba(0, 243, 255, 0.4);
+  --neon-magenta: #f000ff;
+  --neon-magenta-glow: rgba(240, 0, 255, 0.4);
+  --neon-purple: #8a2be2;
+  --neon-green: #39ff14;
+  --neon-green-glow: rgba(57, 255, 20, 0.45);
+  --neon-orange: #ffaa00;
+  --neon-orange-glow: rgba(255, 170, 0, 0.4);
+  --neon-red: #ff3366;
+  --neon-red-glow: rgba(255, 51, 102, 0.45);
+  
+  --text-primary: #f0f4f8;
+  --text-secondary: #90a0b7;
+  
+  /* Fonts */
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.12) 0%, transparent 40%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+header {
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(10, 12, 16, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--bg-primary);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+  animation: logoPulse 4s infinite alternate;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(to right, #ffffff, var(--neon-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-sub {
+  font-size: 0.85rem;
+  color: var(--neon-magenta);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* HUD System */
+.hud-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.hud-item {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.03);
+}
+
+.hud-item i {
+  font-size: 1.1rem;
+}
+
+.hud-streak {
+  color: var(--neon-orange);
+  border-color: rgba(255, 170, 0, 0.2);
+  box-shadow: 0 0 10px rgba(255, 170, 0, 0.1);
+  animation: streakFloat 2s infinite ease-in-out;
+}
+
+.hud-xp {
+  color: var(--neon-cyan);
+  border-color: rgba(0, 243, 255, 0.2);
+}
+
+.hud-level {
+  color: var(--neon-magenta);
+  border-color: rgba(240, 0, 255, 0.2);
+}
+
+/* App Layout */
+main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2rem;
+}
+
+.game-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Game Cards */
+.card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-normal), border-color var(--transition-normal);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+}
+
+/* Word Question styling */
+.question-card::before {
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+}
+
+.topic-badge {
+  display: inline-block;
+  background: rgba(0, 243, 255, 0.1);
+  color: var(--neon-cyan);
+  border: 1px solid rgba(0, 243, 255, 0.25);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.difficulty-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  margin-left: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.difficulty-badge.easy {
+  background: rgba(57, 255, 20, 0.1);
+  color: var(--neon-green);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+}
+
+.difficulty-badge.medium {
+  background: rgba(255, 170, 0, 0.1);
+  color: var(--neon-orange);
+  border: 1px solid rgba(255, 170, 0, 0.25);
+}
+
+.difficulty-badge.hard {
+  background: rgba(255, 51, 102, 0.1);
+  color: var(--neon-red);
+  border: 1px solid rgba(255, 51, 102, 0.25);
+}
+
+.question-text {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-top: 0.25rem;
+}
+
+/* Equations Container - SINGLE LINE RULE */
+.equation-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+  justify-content: center;
+}
+
+.equation-card::before {
+  background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan));
+}
+
+.equation-container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  padding: 2.5rem 1rem;
+  margin: 1rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-cyan) rgba(255,255,255,0.05);
+  background: rgba(7, 9, 15, 0.4);
+  border-radius: 0.75rem;
+  border: 1px dashed rgba(255,255,255,0.05);
+}
+
+/* Customized scrollbar for equations single line */
+.equation-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.equation-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 3px;
+}
+
+.equation-container::-webkit-scrollbar-thumb {
+  background: var(--neon-cyan);
+  border-radius: 3px;
+  box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* Molecule Representation */
+.molecule {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  transition: background-color var(--transition-fast);
+}
+
+.molecule.reactant {
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.02);
+  border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.molecule.product {
+  box-shadow: 0 0 15px rgba(240, 0, 255, 0.02);
+  border-bottom: 2px solid rgba(240, 0, 255, 0.2);
+}
+
+/* Textboxes styling */
+.textbox-container {
+  display: inline-flex;
+  position: relative;
+}
+
+/* Input Fields styling */
+.chem-input {
+  background: rgba(10, 14, 23, 0.9);
+  color: var(--text-primary);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  transition: all var(--transition-fast);
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.chem-input:focus {
+  background: rgba(15, 22, 38, 0.95);
+  color: #ffffff;
+  border-color: var(--neon-cyan);
+  box-shadow: 
+    0 0 10px var(--neon-cyan-glow),
+    inset 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* Coefficient Input (Left) */
+.coeff-input {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 0.35rem;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-right: 0.35rem;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.reactant .coeff-input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px var(--neon-cyan-glow);
+}
+
+.product .coeff-input:focus {
+  border-color: var(--neon-magenta);
+  box-shadow: 0 0 10px var(--neon-magenta-glow);
+}
+
+/* Subscript Input (Inside molecule) */
+.subscript-wrapper {
+  position: relative;
+  display: inline-block;
+  transform: translateY(0.55rem);
+  margin-left: 0.05rem;
+  margin-right: 0.2rem;
+}
+
+.sub-input {
+  width: 1.4rem;
+  height: 1.3rem;
+  border-radius: 0.2rem;
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 0;
+  border-width: 1px;
+  background: rgba(5, 7, 12, 0.95);
+}
+
+/* State Symbol Input (Right) */
+.state-wrapper {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-left: 0.25rem;
+}
+
+.state-input {
+  width: 2rem;
+  height: 1.8rem;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  text-align: center;
+  border-width: 1px;
+  margin: 0 1px;
+}
+
+/* Chemical symbols text styling */
+.chem-symbol {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  user-select: none;
+}
+
+.chem-bracket {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+/* Operator signs: + and -> */
+.equation-operator {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  padding: 0 0.5rem;
+  user-select: none;
+}
+
+.operator-plus {
+  color: var(--text-secondary);
+  animation: floatPlus 4s infinite alternate ease-in-out;
+}
+
+.operator-arrow {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan-glow);
+  font-size: 1.8rem;
+  animation: pulseArrow 2s infinite;
+}
+
+/* Validation states (Visual Feedback) */
+.chem-input.is-correct {
+  border-color: var(--neon-green) !important;
+  color: var(--neon-green) !important;
+  background: rgba(57, 255, 20, 0.05);
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.3) !important;
+}
+
+.chem-input.is-incorrect {
+  border-color: var(--neon-red) !important;
+  color: var(--neon-red) !important;
+  background: rgba(255, 51, 102, 0.05);
+  box-shadow: 0 0 12px rgba(255, 51, 102, 0.3) !important;
+  animation: shake 0.35s ease-in-out;
+}
+
+/* Button & Actions Area */
+.actions-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.btn {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 2rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all var(--transition-normal);
+  outline: none;
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.05);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+  color: var(--bg-primary);
+  box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+}
+
+.btn-primary:hover {
+  box-shadow: 
+    0 6px 20px rgba(0, 243, 255, 0.5),
+    0 0 10px var(--neon-magenta-glow);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-hint {
+  background: rgba(255, 170, 0, 0.1);
+  color: var(--neon-orange);
+  border: 1px solid rgba(255, 170, 0, 0.2);
+}
+
+.btn-hint:hover {
+  background: rgba(255, 170, 0, 0.15);
+  border-color: var(--neon-orange);
+  box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);
+}
+
+/* Feedback panel */
+.feedback-card {
+  display: none;
+  margin-top: 1.5rem;
+  border: 1.5px solid var(--glass-border);
+  animation: slideUp var(--transition-normal);
+}
+
+.feedback-card.success {
+  border-color: rgba(57, 255, 20, 0.3);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.05);
+}
+
+.feedback-card.success::before {
+  background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+}
+
+.feedback-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.feedback-card.success .feedback-title {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+}
+
+.sg-coach-comment {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.03);
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--neon-cyan);
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin-bottom: 1rem;
+}
+
+.feedback-card.success .sg-coach-comment {
+  border-left-color: var(--neon-green);
+}
+
+.explanation-section {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+.explanation-section strong {
+  color: var(--text-primary);
+}
+
+/* Sidebar Dashboard */
+aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar-card::before {
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-magenta));
+}
+
+.sidebar-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 0.5rem;
+}
+
+.sidebar-title i {
+  color: var(--neon-magenta);
+}
+
+/* Badges Grid */
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.badge-item {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  opacity: 0.4;
+  filter: grayscale(100%);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  position: relative;
+}
+
+.badge-item.unlocked {
+  opacity: 1;
+  filter: grayscale(0);
+  background: linear-gradient(180deg, rgba(240, 0, 255, 0.05) 0%, rgba(0, 0, 0, 0.3) 100%);
+  border-color: rgba(240, 0, 255, 0.2);
+}
+
+.badge-item.unlocked:hover {
+  transform: translateY(-3px) scale(1.05);
+  border-color: var(--neon-magenta);
+  box-shadow: 0 5px 15px rgba(240, 0, 255, 0.15);
+}
+
+.badge-icon {
+  font-size: 1.8rem;
+  transition: transform var(--transition-normal);
+}
+
+.badge-item.unlocked:hover .badge-icon {
+  transform: rotate(12deg) scale(1.1);
+}
+
+.badge-name {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  line-height: 1.2;
+}
+
+.badge-item.unlocked .badge-name {
+  color: var(--text-primary);
+}
+
+/* Help / Stats panel */
+.stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Particle Canvas Overlay */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 150;
+}
+
+/* Animations */
+@keyframes logoPulse {
+  0% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.3); }
+  100% { box-shadow: 0 0 25px rgba(240, 0, 255, 0.6); }
+}
+
+@keyframes streakFloat {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes floatPlus {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-2px) rotate(5deg); }
+}
+
+@keyframes pulseArrow {
+  0% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08) translateX(2px); }
+  100% { opacity: 0.6; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+/* Responsive Grid adjustments */
+@media (max-width: 900px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+  aside {
+    order: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  main {
+    padding: 1rem;
+  }
+  .card {
+    padding: 1.25rem;
+  }
+  .question-text {
+    font-size: 1.15rem;
+  }
+  .chem-symbol, .chem-bracket, .equation-operator {
+    font-size: 1.15rem;
+  }
+  .coeff-input {
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 1rem;
+  }
+}
